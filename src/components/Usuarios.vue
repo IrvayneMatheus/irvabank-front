@@ -127,7 +127,7 @@ export default {
 
     <div class="container-fluid">
       <div class="table-responsive">
-        <table class="table">
+        <table v-if="usuarios.length" class="table">
           <thead>
             <tr>
               <th scope="col">ID</th>
@@ -148,6 +148,7 @@ export default {
             </tr>
           </tbody>
         </table>
+        <p v-else class="centralizado"> Não possui usuários registradas </p>
       </div>
     </div>
 
@@ -170,8 +171,10 @@ export default {
                 <input v-model="novoUsuario.numeroConta" type="text" class="form-control" id="agencia" required>
               </div>
               <p v-if="erroCadastro" class="text-danger">{{ erroCadastro }}</p>
-              <button type="submit" class="btn btn-primary">Cadastrar</button>
-              <button type="button" class="btn btn-secondary" @click="fecharModais">Cancelar</button>
+              <div class="centralizado">
+                <button type="submit" class="btn btn-primary">Cadastrar</button>
+                <button type="button" class="btn btn-secondary" @click="fecharModais">Cancelar</button>
+              </div>
             </form>
           </div>
         </div>
@@ -197,8 +200,10 @@ export default {
                 <input v-model="usuarioEditando.numeroConta" type="text" class="form-control" id="agenciaEditar" required>
               </div>
               <p v-if="erroEditar" class="text-danger">{{ erroEditar }}</p>
-              <button type="submit" class="btn btn-primary">Salvar</button>
-              <button type="button" class="btn btn-secondary" @click="fecharModais">Cancelar</button>
+              <div class="centralizado">
+                <button type="submit" class="btn btn-primary">Salvar</button>
+                <button type="button" class="btn btn-secondary" @click="fecharModais">Cancelar</button>
+              </div>
             </form>
           </div>
         </div>
@@ -214,7 +219,7 @@ export default {
             <h5 class="modal-title">Excluir Usuário</h5>
             <button type="button" class="btn-close" @click="fecharModais"></button>
           </div>
-          <div class="modal-body">
+          <div class="modal-body centralizado">
           <p v-if="erroExcluir" class="text-danger">{{ erroExcluir }}</p>
             <p>Deseja realmente excluir o usuário?</p>
             <button type="button" class="btn btn-danger" @click="excluirUsuario">Sim</button>
@@ -265,5 +270,9 @@ export default {
 
 .modal-title {
   margin: 0;
+}
+
+.centralizado {
+  text-align: center;
 }
 </style>
