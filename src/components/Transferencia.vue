@@ -114,7 +114,7 @@ export default {
 
     <div class="container-fluid">
       <div class="table-responsive">
-        <table class="table">
+        <table v-if="transferencias.length" class="table">
           <thead>
             <tr>
               <th scope="col">ID</th>
@@ -142,6 +142,7 @@ export default {
             </tr>
           </tbody>
         </table>
+        <p v-else class="centralizado"> Não possui transferências registradas </p>
       </div>
     </div>
 
@@ -247,5 +248,9 @@ export default {
 
 .modal-title {
   margin: 0;
+}
+
+.centralizado {
+  text-align: center;
 }
 </style>
