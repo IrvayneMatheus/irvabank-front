@@ -1,5 +1,4 @@
 <template>
-
   <div class="menu-lateral">
   <img src="@/components/icons/icon.png" alt="Logo IrvaBank" class="logo-img">
     <router-link to="/usuarios" class="nav-link">Clientes</router-link>

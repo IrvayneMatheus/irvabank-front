@@ -1,108 +1,3 @@
-<template>
-  <div class="pagina">
-    <h1>{{ titulo }}</h1>
-    
-    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-      <button @click="abrirModal" class="btn btn-primary mb-3">Cadastrar</button>
-    </div>
-
-    <div class="container-fluid">
-      <div class="table-responsive">
-        <table class="table">
-          <thead>
-            <tr>
-              <th scope="col">ID</th>
-              <th scope="col">Conta Origem</th>
-              <th scope="col">Conta Destino</th>
-              <th scope="col">Data Agendamento</th>
-              <th scope="col">Data Transferencia</th>
-              <th scope="col">Valor</th>
-              <th scope="col">Taxa</th>
-              <th scope="col">Ações</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="transferencia in transferencias" :key="transferencia.id">
-              <th scope="row">{{ transferencia.id }}</th>
-              <td>{{ transferencia.contaOrigem }}</td>
-              <td>{{ transferencia.contaDestino }}</td>
-              <td>{{ formatarData(transferencia.dataAgendamento) }}</td>
-              <td>{{ formatarData(transferencia.dataTransferencia) }}</td>
-              <td>{{ formatarValor(transferencia.valor) }}</td>
-              <td>{{ formatarValor(transferencia.taxa) }}</td>
-              <td>
-                <button @click="abrirModalExcluir(transferencia)" class="btn btn-danger">Excluir</button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <!-- Modal de cadastro -->
-    <div class="modal" :class="{ 'show': modalAdicionarAberto }">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">Cadastrar Transferência</h5>
-            <button type="button" class="btn-close" @click="fecharModais"></button>
-          </div>
-          <div class="modal-body">
-            <form @submit.prevent="cadastrarTransferencia">
-              <div class="mb-3">
-                <label for="contaOrigem" class="form-label">Conta Origem:</label>
-                <input v-model="novaTransferencia.contaOrigem" type="text" class="form-control" id="contaOrigem" required>
-              </div>
-              <div class="mb-3">
-                <label for="contaDestino" class="form-label">Conta Destino:</label>
-                <input v-model="novaTransferencia.contaDestino" type="text" class="form-control" id="contaDestino" required>
-              </div>
-              <div class="mb-3">
-                <label for="valor" class="form-label">Valor:</label>
-                <input v-model="novaTransferencia.valor" type="text" class="form-control" id="valor" required>
-              </div>
-              <div class="mb-3">
-                <label for="dataTransferencia" class="form-label">Data Transferência:</label>
-                <input
-                  v-model="novaTransferencia.dataTransferencia"
-                  type="text"
-                  class="form-control"
-                  id="dataTransferencia"
-                  required
-                  ref="dataTransferenciaInput"
-                >
-              </div>
-              <p v-if="erroCadastro" class="text-danger">{{ erroCadastro }}</p>
-              <button type="submit" class="btn btn-primary">Cadastrar</button>
-              <button type="button" class="btn btn-secondary" @click="fecharModais">Cancelar</button>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
-    
-
-    <!-- Modal para excluir -->
-    <div class="modal" :class="{ 'show': modalExcluirAberto }">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">Excluir Transferência</h5>
-            <button type="button" class="btn-close" @click="fecharModais"></button>
-          </div>
-          <div class="modal-body">
-          <p v-if="erroExcluir" class="text-danger">{{ erroExcluir }}</p>
-            <p>Deseja realmente excluir a transferência?</p>
-            <button type="button" class="btn btn-danger" @click="excluirTransferencia">Sim</button>
-            <button type="button" class="btn btn-secondary" @click="fecharModais">Cancelar</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-  </div>
-</template>
-
 <script>
 import axios from 'axios';
 import moment from 'moment';
@@ -208,6 +103,111 @@ export default {
   }
 };
 </script>
+
+<template>
+  <div class="pagina">
+    <h1>{{ titulo }}</h1>
+    
+    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+      <button @click="abrirModal" class="btn btn-primary mb-3">Cadastrar</button>
+    </div>
+
+    <div class="container-fluid">
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">ID</th>
+              <th scope="col">Conta Origem</th>
+              <th scope="col">Conta Destino</th>
+              <th scope="col">Data Agendamento</th>
+              <th scope="col">Data Transferencia</th>
+              <th scope="col">Valor</th>
+              <th scope="col">Taxa</th>
+              <th scope="col">Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="transferencia in transferencias" :key="transferencia.id">
+              <th scope="row">{{ transferencia.id }}</th>
+              <td>{{ transferencia.contaOrigem }}</td>
+              <td>{{ transferencia.contaDestino }}</td>
+              <td>{{ formatarData(transferencia.dataAgendamento) }}</td>
+              <td>{{ formatarData(transferencia.dataTransferencia) }}</td>
+              <td>{{ formatarValor(transferencia.valor) }}</td>
+              <td>{{ formatarValor(transferencia.taxa) }}</td>
+              <td>
+                <button @click="abrirModalExcluir(transferencia)" class="btn btn-danger">Excluir</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Modal de cadastro -->
+    <div class="modal" :class="{ 'show': modalAdicionarAberto }">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Cadastrar Transferência</h5>
+            <button type="button" class="btn-close" @click="fecharModais"></button>
+          </div>
+          <div class="modal-body">
+            <form @submit.prevent="cadastrarTransferencia">
+              <div class="mb-3">
+                <label for="contaOrigem" class="form-label">Conta Origem:</label>
+                <input v-model="novaTransferencia.contaOrigem" type="text" class="form-control" id="contaOrigem" required>
+              </div>
+              <div class="mb-3">
+                <label for="contaDestino" class="form-label">Conta Destino:</label>
+                <input v-model="novaTransferencia.contaDestino" type="text" class="form-control" id="contaDestino" required>
+              </div>
+              <div class="mb-3">
+                <label for="valor" class="form-label">Valor:</label>
+                <input v-model="novaTransferencia.valor" type="text" class="form-control" id="valor" required>
+              </div>
+              <div class="mb-3">
+                <label for="dataTransferencia" class="form-label">Data Transferência:</label>
+                <input
+                  v-model="novaTransferencia.dataTransferencia"
+                  type="text"
+                  class="form-control"
+                  id="dataTransferencia"
+                  required
+                  ref="dataTransferenciaInput"
+                >
+              </div>
+              <p v-if="erroCadastro" class="text-danger">{{ erroCadastro }}</p>
+              <button type="submit" class="btn btn-primary">Cadastrar</button>
+              <button type="button" class="btn btn-secondary" @click="fecharModais">Cancelar</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+
+    <!-- Modal para excluir -->
+    <div class="modal" :class="{ 'show': modalExcluirAberto }">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Excluir Transferência</h5>
+            <button type="button" class="btn-close" @click="fecharModais"></button>
+          </div>
+          <div class="modal-body">
+          <p v-if="erroExcluir" class="text-danger">{{ erroExcluir }}</p>
+            <p>Deseja realmente excluir a transferência?</p>
+            <button type="button" class="btn btn-danger" @click="excluirTransferencia">Sim</button>
+            <button type="button" class="btn btn-secondary" @click="fecharModais">Cancelar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</template>
 
 <style scoped>
 .pagina {

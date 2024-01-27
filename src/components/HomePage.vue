@@ -1,3 +1,11 @@
+<script>
+import MenuLateral from "@/components/MenuLateral.vue";
+
+export default {
+  components: { MenuLateral }
+};
+</script>
+
 <template>
   <div id="app">
     <MenuLateral />
@@ -6,17 +14,6 @@
     </div>
   </div>
 </template>
-
-<script>
-import MenuLateral from "@/components/MenuLateral.vue";
-
-export default {
-  name: "App",
-  components: {
-    MenuLateral
-  }
-};
-</script>
 
 <style>
 
