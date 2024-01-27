@@ -28,8 +28,8 @@
               <td>{{ transferencia.contaDestino }}</td>
               <td>{{ formatarData(transferencia.dataAgendamento) }}</td>
               <td>{{ formatarData(transferencia.dataTransferencia) }}</td>
-              <td>{{ transferencia.valor }}</td>
-              <td>{{ transferencia.taxa }}</td>
+              <td>{{ formatarValor(transferencia.valor) }}</td>
+              <td>{{ formatarValor(transferencia.taxa) }}</td>
               <td>
                 <button @click="abrirModalExcluir(transferencia)" class="btn btn-danger">Excluir</button>
               </td>
@@ -145,6 +145,9 @@ export default {
     formatarData(data) {
       return moment(data).format('HH:mm - DD/MM/YYYY');
     },
+    formatarValor(valor) {
+      return valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+    },
     async fetchTransferencias() {
       try {
         const response = await axios.get('http://localhost:8080/api/v1/transferencia/findAll');
@@ -183,23 +186,23 @@ export default {
           this.fecharModais();
           this.fetchTransferencias();
         } else {
-          this.erroCadastro = 'Erro ao cadastrar transferencia. Tente novamente.';
+          this.erroCadastro = 'Não existe taxa aplicável para esse data.';
         }
       } catch (error) {
-        this.erroCadastro = 'Erro ao cadastrar transferencia. Tente novamente.';
+        this.erroCadastro = 'Não existe taxa aplicável para esse data.';
       }
     },
     async excluirTransferencia() {
       try {
-        const response = await axios.delete(`http://localhost:8080/transferencia/${this.transferencia.id}`);
+        const response = await axios.delete(`http://localhost:8080/api/v1/transferencia/delete/${this.transferencia.id}`);
         if (response.status === 200) {
           this.fecharModais();
-          this.fetchUsuarios();
+          this.fetchTransferencias();
         } else {
-          this.erroExcluir = 'Erro ao excluir usuário. Tente novamente.';
+          this.erroExcluir = 'Erro ao excluir transferencia. Tente novamente.';
         }
       } catch (error) {
-        this.erroExcluir = 'Erro ao excluir usuário. Tente novamente.';
+        this.erroExcluir = 'Erro ao excluir transferencia. Tente novamente.';
       }
     }
   }
