@@ -26,8 +26,8 @@
               <th scope="row">{{ transferencia.id }}</th>
               <td>{{ transferencia.contaOrigem }}</td>
               <td>{{ transferencia.contaDestino }}</td>
-              <td>{{ transferencia.dataAgendamento }}</td>
-              <td>{{ transferencia.dataTransferencia }}</td>
+              <td>{{ formatarData(transferencia.dataAgendamento) }}</td>
+              <td>{{ formatarData(transferencia.dataTransferencia) }}</td>
               <td>{{ transferencia.valor }}</td>
               <td>{{ transferencia.taxa }}</td>
               <td>
@@ -63,7 +63,14 @@
               </div>
               <div class="mb-3">
                 <label for="dataTransferencia" class="form-label">Data Transferência:</label>
-                <input v-model="novaTransferencia.dataTransferencia" type="text" class="form-control" id="dataTransferencia" required>
+                <input
+                  v-model="novaTransferencia.dataTransferencia"
+                  type="text"
+                  class="form-control"
+                  id="dataTransferencia"
+                  required
+                  ref="dataTransferenciaInput"
+                >
               </div>
               <p v-if="erroCadastro" class="text-danger">{{ erroCadastro }}</p>
               <button type="submit" class="btn btn-primary">Cadastrar</button>
@@ -98,6 +105,10 @@
 
 <script>
 import axios from 'axios';
+import moment from 'moment';
+import flatpickr from 'flatpickr';
+import 'flatpickr/dist/flatpickr.min.css';
+import { Portuguese } from 'flatpickr/dist/l10n/pt';
 
 export default {
   name: "Transferências",
@@ -111,7 +122,7 @@ export default {
         contaOrigem: '',
         contaDestino: '',
         valor: '',
-        dataTransferencia: ''
+        dataTransferencia: null
       },
       transferencia: {
         id: null
@@ -122,12 +133,22 @@ export default {
   },
   mounted() {
     this.fetchTransferencias();
+    this.inicializarFlatpickr();
   },
   methods: {
+    inicializarFlatpickr() {
+      flatpickr(this.$refs.dataTransferenciaInput, {
+        locale: Portuguese,
+        dateFormat: 'Z',
+      });
+    },
+    formatarData(data) {
+      return moment(data).format('HH:mm - DD/MM/YYYY');
+    },
     async fetchTransferencias() {
       try {
-        const response = await axios.get('http://localhost:8080/trasnferencias');
-        this.transferencias = response.data;
+        const response = await axios.get('http://localhost:8080/api/v1/transferencia/findAll');
+        this.transferencias = response.data.content;
       } catch (error) {
         console.error('Erro ao obter transferencias:', error);
         this.transferencias = [
@@ -157,9 +178,9 @@ export default {
     },
     async cadastrarTransferencia() {
       try {
-        const response = await axios.post('http://localhost:8080/transferencia', this.novaTransferencia);
-        if (response.status === 201) {
-          this.fecharModal();
+        const response = await axios.post('http://localhost:8080/api/v1/transferencia/insert', this.novaTransferencia);
+        if (response.status === 200) {
+          this.fecharModais();
           this.fetchTransferencias();
         } else {
           this.erroCadastro = 'Erro ao cadastrar transferencia. Tente novamente.';
@@ -171,8 +192,8 @@ export default {
     async excluirTransferencia() {
       try {
         const response = await axios.delete(`http://localhost:8080/transferencia/${this.transferencia.id}`);
-        if (response.status === 201) {
-          this.fecharModal();
+        if (response.status === 200) {
+          this.fecharModais();
           this.fetchUsuarios();
         } else {
           this.erroExcluir = 'Erro ao excluir usuário. Tente novamente.';
