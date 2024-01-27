@@ -140,8 +140,8 @@ export default {
   methods: {
     async fetchUsuarios() {
       try {
-        const response = await axios.get('http://localhost:8080/usuarios');
-        this.usuarios = response.data;
+        const response = await axios.get('http://localhost:8080/api/v1/cliente/findAll');
+        this.usuarios = response.data.content;
       } catch (error) {
         console.error('Erro ao obter usuários:', error);
         this.usuarios = [
@@ -183,9 +183,10 @@ export default {
     },
     async cadastrarUsuario() {
       try {
-        const response = await axios.post('http://localhost:8080/cadastrar', this.novoUsuario);
-        if (response.status === 201) {
-          this.fecharModal();
+        const response = await axios.post('http://localhost:8080/api/v1/cliente/insert', this.novoUsuario);
+        console.log(response.status);
+        if (response.status === 200) {
+          this.fecharModais();
           this.fetchUsuarios();
         } else {
           this.erroCadastro = 'Erro ao cadastrar usuário. Tente novamente.';
@@ -196,9 +197,10 @@ export default {
     },
     async editarUsuario() {
       try {
-        const response = await axios.put(`http://localhost:8080/editar/${this.usuarioEditando.id}`, this.usuarioEditando);
-      if (response.status === 201) {
-          this.fecharModal();
+        const response = await axios.put('http://localhost:8080/api/v1/cliente/update', this.usuarioEditando);
+        console.log(response);
+      if (response.status === 200) {
+          this.fecharModais();
           this.fetchUsuarios(); 
         } else {
           this.erroEditar = 'Erro ao editar usuário. Tente novamente.';
@@ -210,9 +212,9 @@ export default {
 
     async excluirUsuario() {
       try {
-        const response = await axios.delete(`http://localhost:8080/deletar/${this.usuarioEditando.id}`);
-        if (response.status === 201) {
-          this.fecharModal();
+        const response = await axios.delete(`http://localhost:8080/api/v1/cliente/delete/${this.usuarioEditando.id}`);
+        if (response.status === 200) {
+          this.fecharModais();
           this.fetchUsuarios();
         } else {
           this.erroExcluir = 'Erro ao excluir usuário. Tente novamente.';
