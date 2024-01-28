@@ -14,7 +14,7 @@ Welcome to IrvaBank! This is a Vue.js project that provides functionalities for 
 7) vue-router (^4.2.5): Official router for Vue.js applications.
 8) vue-the-mask (^0.11.1): Mask component for input data in Vue.js fields.
 
-##Development Dependencies:
+## Development Dependencies:
 
 1) @tsconfig/node18 (^18.2.0): Set of TypeScript configurations for Node.js version 18.
 2) @types/node (^18.17.5): TypeScript types for Node.js.
