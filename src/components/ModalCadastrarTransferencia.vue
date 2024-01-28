@@ -41,6 +41,7 @@ export default {
           const response = await axios.post('http://localhost:8080/api/v1/transferencia/insert', this.transferencia);
           if (response.status === 200) {
             this.fecharModal();
+            this.$emit('atualizarLista');
           } else {
             this.erro = 'Não existe taxa aplicável para esse data.';
           }
@@ -52,6 +53,7 @@ export default {
 	      this.ativo = true;
 	    },
 	},
+  emits: ['atualizarLista']
 }
 
 

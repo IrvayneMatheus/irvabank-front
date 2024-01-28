@@ -17,7 +17,7 @@ export default {
 	        const response = await axios.delete(`http://localhost:8080/api/v1/transferencia/delete/${this.idTransferencia}`);
 	        if (response.status === 200) {
 	          this.fecharModal();
-	          this.$router.go();
+	          this.$emit('atualizarLista');
 	        } else {
 	          this.erro = 'Erro ao excluir transferencia. Tente novamente.';
 	        }
@@ -30,6 +30,7 @@ export default {
 	      this.ativo = true;
 	    },
 	},
+	emits: ['atualizarLista']
 }
 
 

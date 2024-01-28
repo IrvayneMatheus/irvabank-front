@@ -2,9 +2,10 @@
 import axios from 'axios';
 import moment from 'moment';
 import ModalExcluirTransferencia from "@/components/ModalExcluirTransferencia.vue";
+import ModalCadastrarTransferencia from "@/components/ModalCadastrarTransferencia.vue";
 
 export default {
-  components: { ModalExcluirTransferencia },
+  components: { ModalExcluirTransferencia, ModalCadastrarTransferencia },
   data() {
     return {
       transferencias: []
@@ -37,6 +38,10 @@ export default {
 </script>
 
 <template>
+
+<ModalCadastrarTransferencia @atualizarLista="fetchTransferencias()"/>
+
+
 <div class="container-fluid">
   <div class="table-responsive">
     <table v-if="transferencias.length" class="table">
@@ -62,7 +67,8 @@ export default {
           <td>{{ formatarValor(transferencia.valor) }}</td>
           <td>{{ formatarValor(transferencia.taxa) }}</td>
           <td>
-            <ModalExcluirTransferencia :transferencia="transferencia" />
+            <ModalExcluirTransferencia :transferencia="transferencia" 
+            		@atualizarLista="fetchTransferencias()"/>
           </td>
         </tr>
       </tbody>
@@ -72,3 +78,8 @@ export default {
 </div>
 
 </template>
+<style scoped>
+.centralizado {
+  text-align: center;
+}
+</style>
