@@ -3,30 +3,31 @@ import axios from 'axios';
 
 export default {
   props: {
-     transferencia: { type: Object as PropType, required: true}
+     entidade: { type: Object as PropType, required: true},
+     funcionalidade: { type: String, required: true}
   },
   data() {
-    return { erro: null, ativo: false, idTransferencia: null }
+    return { erro: null, ativo: false, idEntidade: null }
 	},
 	methods: {
 		fecharModal() {
 			this.ativo = false;
 		},
-	    async excluirTransferencia() {
+	    async excluir() {
 	      try {
-	        const response = await axios.delete(`http://localhost:8080/api/v1/transferencia/delete/${this.idTransferencia}`);
+	        const response = await axios.delete(`http://localhost:8080/api/v1/${this.funcionalidade}/delete/${this.idEntidade}`);
 	        if (response.status === 200) {
 	          this.fecharModal();
 	          this.$emit('atualizarLista');
 	        } else {
-	          this.erro = 'Erro ao excluir transferencia. Tente novamente.';
+	          this.erro = 'Erro ao excluir. Tente novamente.';
 	        }
 	      } catch (error) {
-	        this.erro = 'Erro ao excluir transferencia. Tente novamente.';
+	        this.erro = 'Erro ao excluir. Tente novamente.';
 	      }
 	    },
-	    abrirModal(transferencia) {
-	      this.idTransferencia = transferencia.id;
+	    abrirModal(entidade) {
+	      this.idEntidade = entidade.id;
 	      this.ativo = true;
 	    },
 	},
@@ -38,19 +39,19 @@ export default {
 
 <template>
 
-<button @click="abrirModal(transferencia)" class="btn btn-danger">Excluir</button>
+<button @click="abrirModal(entidade)" class="btn btn-danger">Excluir</button>
 
 <div class="modal" :class="{ 'show': ativo }">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Excluir Transferência</h5>
+        <h5 class="modal-title">Excluir</h5>
         <button type="button" class="btn-close" @click="fecharModal"></button>
       </div>
       <div class="modal-body">
       <p v-if="erro" class="text-danger">{{ erro }}</p>
-        <p>Deseja realmente excluir a transferência?</p>
-        <button type="button" class="btn btn-danger" @click="excluirTransferencia">Sim</button>
+        <p>Deseja realmente excluir?</p>
+        <button type="button" class="btn btn-danger" @click="excluir">Sim</button>
         <button type="button" class="btn btn-secondary" @click="fecharModal">Cancelar</button>
       </div>
     </div>

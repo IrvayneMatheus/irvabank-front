@@ -1,15 +1,16 @@
 <script lang="ts">
 import axios from 'axios';
 import moment from 'moment';
-import ModalExcluirTransferencia from "@/components/ModalExcluirTransferencia.vue";
 import ModalCadastrarTransferencia from "@/components/ModalCadastrarTransferencia.vue";
+import ModalExcluir from "@/components/ModalExcluir.vue";
 
 export default {
-  components: { ModalExcluirTransferencia, ModalCadastrarTransferencia },
+  components: { ModalExcluir, ModalCadastrarTransferencia },
   data() {
     return {
       transferencias: [],
-      erro: 'Não possui transferências registradas'
+      erro: 'Não possui transferências registradas',
+      funcionalidade: 'transferencia'
     };
   },
   mounted() {
@@ -64,7 +65,7 @@ export default {
           <td>{{ formatarValor(transferencia.valor) }}</td>
           <td>{{ formatarValor(transferencia.taxa) }}</td>
           <td>
-            <ModalExcluirTransferencia :transferencia="transferencia" 
+            <ModalExcluir :entidade="transferencia" :funcionalidade="funcionalidade" 
             		@atualizarLista="fetchTransferencias()"/>
           </td>
         </tr>

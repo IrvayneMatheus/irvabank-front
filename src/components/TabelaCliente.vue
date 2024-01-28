@@ -1,16 +1,17 @@
 <script lang="ts">
 import axios from 'axios';
 import moment from 'moment';
-import ModalExcluirCliente from "@/components/ModalExcluirCliente.vue";
+import ModalExcluir from "@/components/ModalExcluir.vue";
 import ModalCadastrarCliente from "@/components/ModalCadastrarCliente.vue";
 import ModalEditarCliente from "@/components/ModalEditarCliente.vue";
 
 export default {
-  components: { ModalExcluirCliente, ModalCadastrarCliente, ModalEditarCliente },
+  components: { ModalExcluir, ModalCadastrarCliente, ModalEditarCliente },
   data() {
     return {
       clientes: [],
-      erro: 'Não possui clientes cadastrados'
+      erro: 'Não possui clientes cadastrados',
+      funcionalidade: 'cliente'
     };
   },
   mounted() {
@@ -53,7 +54,7 @@ export default {
               <td>
                 <ModalEditarCliente :cliente="cliente" 
                     @atualizarLista="fetchClientes()"/>
-                <ModalExcluirCliente :cliente="cliente" 
+                <ModalExcluir :entidade="cliente" :funcionalidade="funcionalidade"
                     @atualizarLista="fetchClientes()"/>
               </td>
             </tr>
