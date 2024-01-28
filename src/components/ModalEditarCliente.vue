@@ -1,5 +1,5 @@
 <script lang="ts">
-import axios from 'axios';
+import { editarCliente } from '@/http/api.ts';
 
 export default {
   props: {
@@ -19,18 +19,15 @@ export default {
 	methods: {
 		fecharModal() {
 			this.ativo = false;
+      this.erro = null;
 		},
 	    async editarCliente() {
         try {
-          const response = await axios.put('http://localhost:8080/api/v1/cliente/update', this.clienteEditar);
-          if (response.status === 200) {
-            this.fecharModal();
-            this.$emit('atualizarLista');
-          } else {
-            this.erro = 'Erro ao salvar informacao do cliente.';
-          }
+          const response = await editarCliente(this.clienteEditar);
+          this.fecharModal();
+          this.$emit('atualizarLista');
         } catch (error) {
-          this.erro = 'Erro ao salvar informacao do cliente.';
+          this.erro = error.response.data;
         }
       },
 	    abrirModal(cliente) {
@@ -48,7 +45,7 @@ export default {
 
 <template>
 
-<button @click="abrirModal(cliente)" class="btn btn-warning">Editar</button>
+<button @click="abrirModal(cliente)" class="btn btn-warning margem">Editar</button>
 
 <div class="modal" :class="{ 'show': ativo }">
   <div class="modal-dialog">
@@ -69,7 +66,7 @@ export default {
           </div>
           <p v-if="erro" class="text-danger">{{ erro }}</p>
           <div class="centralizado">
-            <button type="submit" class="btn btn-primary">Salvar</button>
+            <button type="submit" class="btn btn-primary margem">Salvar</button>
             <button type="button" class="btn btn-secondary" @click="fecharModal">Cancelar</button>
           </div>
         </form>
@@ -122,5 +119,9 @@ export default {
 
 .centralizado {
   text-align: center;
+}
+
+.margem {
+  margin-right: 10px;
 }
 </style>

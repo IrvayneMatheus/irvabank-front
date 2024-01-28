@@ -1,5 +1,5 @@
 <script lang="ts">
-import axios from 'axios';
+import { excluir } from '@/http/api.ts';
 
 export default {
   props: {
@@ -15,15 +15,11 @@ export default {
 		},
 	    async excluir() {
 	      try {
-	        const response = await axios.delete(`http://localhost:8080/api/v1/${this.funcionalidade}/delete/${this.idEntidade}`);
-	        if (response.status === 200) {
-	          this.fecharModal();
-	          this.$emit('atualizarLista');
-	        } else {
-	          this.erro = 'Erro ao excluir. Tente novamente.';
-	        }
+	        const response = await excluir(this.funcionalidade, this.idEntidade);
+	        this.fecharModal();
+	        this.$emit('atualizarLista');
 	      } catch (error) {
-	        this.erro = 'Erro ao excluir. Tente novamente.';
+	        this.erro = error.response.data;
 	      }
 	    },
 	    abrirModal(entidade) {
@@ -51,8 +47,10 @@ export default {
       <div class="modal-body">
       <p v-if="erro" class="text-danger">{{ erro }}</p>
         <p>Deseja realmente excluir?</p>
-        <button type="button" class="btn btn-danger" @click="excluir">Sim</button>
-        <button type="button" class="btn btn-secondary" @click="fecharModal">Cancelar</button>
+        <div class="centralizado">
+          <button type="button" class="btn btn-danger margem" @click="excluir">Sim   </button>
+          <button type="button" class="btn btn-secondary" @click="fecharModal">Cancelar</button>
+        </div>
       </div>
     </div>
   </div>
@@ -102,5 +100,9 @@ export default {
 
 .centralizado {
   text-align: center;
+}
+
+.margem {
+  margin-right: 10px;
 }
 </style>

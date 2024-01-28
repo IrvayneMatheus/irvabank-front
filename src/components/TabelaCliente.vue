@@ -22,6 +22,9 @@ export default {
 	      try {
 	        const response = await axios.get('http://localhost:8080/api/v1/cliente/findAll');
 	        this.clientes = response.data.content;
+          if (this.clientes.length === 0) {
+            this.erro = "Não possui clientes cadastrados."
+          }
 	      } catch (error) {
 	      	this.erro = "Erro ao buscar dados no servidor. Entre em contato com o suporte."
     	}
@@ -60,7 +63,7 @@ export default {
             </tr>
           </tbody>
         </table>
-        <p v-else class="centralizado"> Não possui clientes registradas </p>
+        <p v-else class="centralizado"> {{this.erro}} </p>
       </div>
     </div>
 

@@ -1,5 +1,5 @@
 <script lang="ts">
-import axios from 'axios';
+import { cadastrarCliente } from '@/http/api.ts';
 
 export default {
   data() {
@@ -23,15 +23,11 @@ export default {
 		},
 	    async cadastrarCliente() {
         try {
-          const response = await axios.post('http://localhost:8080/api/v1/cliente/insert', this.cliente);
-          if (response.status === 200) {
-            this.fecharModal();
-            this.$emit('atualizarLista');
-          } else {
-            this.erro = 'Erro ao salvar informacao do cliente.';
-          }
+          const response = await cadastrarCliente(this.cliente);
+          this.fecharModal();
+          this.$emit('atualizarLista');
         } catch (error) {
-          this.erro = 'Erro ao salvar informacao do cliente.';
+          this.erro = error.response.data;
         }
       },
 	    abrirModal() {
@@ -70,7 +66,7 @@ export default {
               </div>
               <p v-if="erro" class="text-danger">{{ erro }}</p>
               <div class="centralizado">
-                <button type="submit" class="btn btn-primary">Cadastrar</button>
+                <button type="submit" class="btn btn-primary margem">Cadastrar</button>
                 <button type="button" class="btn btn-secondary" @click="fecharModal">Cancelar</button>
               </div>
             </form>
@@ -123,5 +119,9 @@ export default {
 
 .centralizado {
   text-align: center;
+}
+
+.margem {
+  margin-right: 10px;
 }
 </style>
