@@ -1,11 +1,11 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import Usuarios from "@/components/Usuarios.vue";
+import Clientes from "@/components/Cliente.vue";
 import Transferencias from "@/components/Transferencia.vue";
 
 const routes = [
-  { path: "/usuarios", component: Usuarios },
+  { path: "/clientes", component: Clientes },
   { path: "/transferencias", component: Transferencias },
-  { path: "/", redirect: "/usuarios" }
+  { path: "/", redirect: "/clientes" }
 ];
 
 const router = createRouter({

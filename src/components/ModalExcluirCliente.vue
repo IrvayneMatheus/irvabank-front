@@ -3,30 +3,30 @@ import axios from 'axios';
 
 export default {
   props: {
-     transferencia: { type: Object as PropType, required: true}
+     cliente: { type: Object as PropType, required: true}
   },
   data() {
-    return { erro: null, ativo: false, idTransferencia: null }
+    return { erro: null, ativo: false, idCliente: null }
 	},
 	methods: {
 		fecharModal() {
 			this.ativo = false;
 		},
-	    async excluirTransferencia() {
+	    async excluirCliente() {
 	      try {
-	        const response = await axios.delete(`http://localhost:8080/api/v1/transferencia/delete/${this.idTransferencia}`);
+	        const response = await axios.delete(`http://localhost:8080/api/v1/cliente/delete/${this.idCliente}`);
 	        if (response.status === 200) {
 	          this.fecharModal();
 	          this.$emit('atualizarLista');
 	        } else {
-	          this.erro = 'Erro ao excluir transferencia. Tente novamente.';
+	          this.erro = 'Erro ao excluir cliente. Tente novamente.';
 	        }
 	      } catch (error) {
-	        this.erro = 'Erro ao excluir transferencia. Tente novamente.';
+	        this.erro = 'Erro ao excluir cliente. Tente novamente.';
 	      }
 	    },
-	    abrirModal(transferencia) {
-	      this.idTransferencia = transferencia.id;
+	    abrirModal(cliente) {
+	      this.idCliente = cliente.id;
 	      this.ativo = true;
 	    },
 	},
@@ -38,7 +38,7 @@ export default {
 
 <template>
 
-<button @click="abrirModal(transferencia)" class="btn btn-danger">Excluir</button>
+<button @click="abrirModal(cliente)" class="btn btn-danger">Excluir</button>
 
 <div class="modal" :class="{ 'show': ativo }">
   <div class="modal-dialog">
@@ -49,8 +49,8 @@ export default {
       </div>
       <div class="modal-body">
       <p v-if="erro" class="text-danger">{{ erro }}</p>
-        <p>Deseja realmente excluir a transferência?</p>
-        <button type="button" class="btn btn-danger" @click="excluirTransferencia">Sim</button>
+        <p>Deseja realmente excluir a cliente?</p>
+        <button type="button" class="btn btn-danger" @click="excluirCliente">Sim</button>
         <button type="button" class="btn btn-secondary" @click="fecharModal">Cancelar</button>
       </div>
     </div>

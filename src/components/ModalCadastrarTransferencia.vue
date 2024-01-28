@@ -6,15 +6,16 @@ import { Portuguese } from 'flatpickr/dist/l10n/pt';
 
 export default {
   data() {
-    return { erro: null,
-             ativo: false,
-             transferencia: {
-                contaOrigem: '',
-                contaDestino: '',
-                valor: '',
-                dataTransferencia: null
-              },
-             }
+    return { 
+      erro: null,
+      ativo: false,
+      transferencia: {
+        contaOrigem: '',
+        contaDestino: '',
+        valor: '',
+        dataTransferencia: null
+      },
+    }
 	},
   mounted() {
     this.inicializarFlatpickr();
