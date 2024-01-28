@@ -28,8 +28,11 @@ export default {
 	      	this.erro = "Erro ao buscar dados no servidor. Entre em contato com o suporte."
     	}
     },
-    formatarData(data) {
+    formatarDataCompleta(data) {
       return moment(data).format('HH:mm - DD/MM/YYYY');
+    },
+    formatarData(data) {
+      return moment(data).format('DD/MM/YYYY');
     },
     formatarValor(valor) {
       return valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
@@ -63,7 +66,7 @@ export default {
           <th scope="row">{{ transferencia.id }}</th>
           <td>{{ transferencia.contaOrigem }}</td>
           <td>{{ transferencia.contaDestino }}</td>
-          <td>{{ formatarData(transferencia.dataAgendamento) }}</td>
+          <td>{{ formatarDataCompleta(transferencia.dataAgendamento) }}</td>
           <td>{{ formatarData(transferencia.dataTransferencia) }}</td>
           <td>{{ formatarValor(transferencia.valor) }}</td>
           <td>{{ formatarValor(transferencia.taxa) }}</td>

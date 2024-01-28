@@ -4,9 +4,10 @@ import moment from 'moment';
 import ModalExcluir from "@/components/ModalExcluir.vue";
 import ModalCadastrarCliente from "@/components/ModalCadastrarCliente.vue";
 import ModalEditarCliente from "@/components/ModalEditarCliente.vue";
+import ModalListarTransferenciasCliente from "@/components/ModalListarTransferenciasCliente.vue";
 
 export default {
-  components: { ModalExcluir, ModalCadastrarCliente, ModalEditarCliente },
+  components: { ModalExcluir, ModalCadastrarCliente, ModalEditarCliente, ModalListarTransferenciasCliente },
   data() {
     return {
       clientes: [],
@@ -55,6 +56,7 @@ export default {
               <td>{{ cliente.nome }}</td>
               <td>{{ cliente.numeroConta }}</td>
               <td>
+                <ModalListarTransferenciasCliente :cliente="cliente"/>
                 <ModalEditarCliente :cliente="cliente" 
                     @atualizarLista="fetchClientes()"/>
                 <ModalExcluir :entidade="cliente" :funcionalidade="funcionalidade"
