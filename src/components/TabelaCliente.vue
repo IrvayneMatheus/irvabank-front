@@ -1,5 +1,5 @@
 <script lang="ts">
-import axios from 'axios';
+import { listarClientes } from '@/http/api.ts';
 import moment from 'moment';
 import ModalExcluir from "@/components/ModalExcluir.vue";
 import ModalCadastrarCliente from "@/components/ModalCadastrarCliente.vue";
@@ -20,7 +20,7 @@ export default {
   methods: {
 	  async fetchClientes() {
 	      try {
-	        const response = await axios.get('http://localhost:8080/api/v1/cliente/findAll');
+	        const response = await listarClientes();
 	        this.clientes = response.data.content;
           if (this.clientes.length === 0) {
             this.erro = "Não possui clientes cadastrados."

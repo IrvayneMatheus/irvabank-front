@@ -1,5 +1,6 @@
 <script lang="ts">
 import { editarCliente } from '@/http/api.ts';
+import { mensagemErro } from '@/util/msgErro.ts';
 
 export default {
   props: {
@@ -27,7 +28,7 @@ export default {
           this.fecharModal();
           this.$emit('atualizarLista');
         } catch (error) {
-          this.erro = error.response.data;
+          this.erro = mensagemErro(error);
         }
       },
 	    abrirModal(cliente) {

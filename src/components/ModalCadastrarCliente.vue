@@ -1,5 +1,6 @@
 <script lang="ts">
 import { cadastrarCliente } from '@/http/api.ts';
+import { mensagemErro } from '@/util/msgErro.ts';
 
 export default {
   data() {
@@ -27,7 +28,7 @@ export default {
           this.fecharModal();
           this.$emit('atualizarLista');
         } catch (error) {
-          this.erro = error.response.data;
+          this.erro = mensagemErro(error);
         }
       },
 	    abrirModal() {

@@ -1,5 +1,5 @@
 <script lang="ts">
-import axios from 'axios';
+import { listarTransferencias } from '@/http/api.ts';
 import moment from 'moment';
 import ModalCadastrarTransferencia from "@/components/ModalCadastrarTransferencia.vue";
 import ModalExcluir from "@/components/ModalExcluir.vue";
@@ -19,8 +19,11 @@ export default {
   methods: {
 	  async fetchTransferencias() {
 	      try {
-	        const response = await axios.get('http://localhost:8080/api/v1/transferencia/findAll');
+	        const response = await listarTransferencias();
 	        this.transferencias = response.data.content;
+          if (this.transferencias.length === 0) {
+            this.erro = "Não possui transferências cadastradas."
+          }
 	      } catch (error) {
 	      	this.erro = "Erro ao buscar dados no servidor. Entre em contato com o suporte."
     	}

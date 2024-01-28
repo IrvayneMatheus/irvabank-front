@@ -1,8 +1,9 @@
 <script lang="ts">
-import axios from 'axios';
+import { cadastrarTransferencia } from '@/http/api.ts';
 import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
 import { Portuguese } from 'flatpickr/dist/l10n/pt';
+import { mensagemErro } from '@/util/msgErro.ts';
 
 export default {
   data() {
@@ -39,15 +40,11 @@ export default {
 		},
 	    async cadastrarTransferencia() {
         try {
-          const response = await axios.post('http://localhost:8080/api/v1/transferencia/insert', this.transferencia);
-          if (response.status === 200) {
-            this.fecharModal();
-            this.$emit('atualizarLista');
-          } else {
-            this.erro = 'Não existe taxa aplicável para esse data.';
-          }
+          const response = await cadastrarTransferencia(this.transferencia);
+          this.fecharModal();
+          this.$emit('atualizarLista');
         } catch (error) {
-          this.erro = 'Não existe taxa aplicável para esse data.';
+          this.erro = mensagemErro(error);
         }
       },
 	    abrirModal() {
@@ -100,8 +97,10 @@ export default {
             >
           </div>
           <p v-if="erro" class="text-danger">{{ erro }}</p>
-          <button type="submit" class="btn btn-primary">Cadastrar</button>
-          <button type="button" class="btn btn-secondary" @click="fecharModal">Cancelar</button>
+          <div class="centralizado">
+            <button type="submit" class="btn btn-primary margem">Cadastrar</button>
+            <button type="button" class="btn btn-secondary" @click="fecharModal">Cancelar</button>
+          </div>
         </form>
       </div>
     </div>
@@ -152,5 +151,9 @@ export default {
 
 .centralizado {
   text-align: center;
+}
+
+.margem {
+  margin-right: 10px;
 }
 </style>
